@@ -25,38 +25,26 @@ jobs:
         run: mkdir -p build
 
       - name: Copy images directory (if exists)
-        run: if [[ -d img ]]; then cp -R img build/img; fi
+        run: if [[ -d images ]]; then cp -R images build/images; fi
 
-      - name: Marp Build (README)
+      - name: Marp Build (slides)
         uses: docker://marpteam/marp-cli:v3.0.2
         with:
-          args: README.md -o build/index.html
+          args: slides.md -o build/index.html
         env:
           MARP_USER: root:root
 
-      - name: Marp Build (README.pdf)
+      - name: Marp Build (slides.pdf)
         uses: docker://marpteam/marp-cli:v3.0.2
         with:
-          args: README.md --allow-local-files -o build/README.pdf
+          args: slides.md --allow-local-files -o build/slides.pdf
         env:
           MARP_USER: root:root
 
-      - name: Marp Build (README.pptx)
+      - name: Marp Build (slides.pptx)
         uses: docker://marpteam/marp-cli:v3.0.2
         with:
-          args: README.md --allow-local-files -o build/README.pptx
-        env:
-          MARP_USER: root:root
-
-      - name: Check if docs folder exists
-        id: docs-folder-exists
-        run: bash -c "[[ -d docs ]] ; echo \"has_docs=\$?\" >> \"$GITHUB_OUTPUT\""
-
-      - name: Marp Build (docs folder, if exists)
-        if: steps.docs-folder-exists.outputs.has_docs == '0'
-        uses: docker://marpteam/marp-cli:v3.0.2
-        with:
-          args: -I docs/ -o build/docs/
+          args: slides.md --allow-local-files -o build/slides.pptx
         env:
           MARP_USER: root:root
 

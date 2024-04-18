@@ -1,0 +1,6 @@
+FROM bitnami/spark:3.3 as spark
+USER root
+RUN install_packages curl
+USER 1001
+RUN curl https://repo1.maven.org/maven2/io/delta/delta-core_2.12/2.3.0/delta-core_2.12-2.3.0.jar --output /opt/bitnami/spark/jars/delta-core_2.12-2.3.0.jar \
+    && curl https://repo1.maven.org/maven2/io/delta/delta-storage/2.3.0/delta-storage-2.3.0.jar --output /opt/bitnami/spark/jars/delta-storage-2.3.0.jar
